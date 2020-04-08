@@ -1,5 +1,4 @@
-import 'dotenv/config';
-
+import './bootstrap';
 import * as Youch from 'youch';
 import express from 'express';
 import 'express-async-errors';
@@ -8,7 +7,7 @@ import routes from './routes';
 
 // Uncomment this line to enable database access
 // --------
-// import './database';
+import './database';
 
 class App {
   constructor() {

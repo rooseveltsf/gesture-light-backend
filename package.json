@@ -3,6 +3,13 @@
   "version": "1.0.0",
   "main": "index.js",
   "license": "MIT",
+  "scripts": {
+    "pretest": "cross-env NODE_ENV=test sequelize db:migrate",
+    "test": "cross-env NODE_ENV=test jest",
+    "posttest": "cross-env NODE_ENV=test sequelize db:migrate:undo:all",
+    "dev": "nodemon src/server.js",
+    "start": "node src/server.js"
+  },
   "husky": {
     "hooks": {
       "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
@@ -13,6 +20,7 @@
     "@commitlint/config-conventional": "^8.3.4",
     "@sucrase/jest-plugin": "^2.0.0",
     "@types/jest": "^25.2.1",
+    "cross-env": "^7.0.2",
     "eslint": "^6.8.0",
     "eslint-config-airbnb-base": "^14.1.0",
     "eslint-config-prettier": "^6.10.1",
@@ -23,18 +31,15 @@
     "nodemon": "^2.0.2",
     "prettier": "^2.0.4",
     "sequelize-cli": "^5.5.1",
+    "sqlite3": "^4.1.1",
     "sucrase": "^3.13.0"
   },
   "dependencies": {
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "express-async-errors": "^3.1.1",
+    "mysql2": "^2.1.0",
     "sequelize": "^5.21.6",
     "youch": "^2.0.10"
-  },
-  "scripts": {
-    "test": "jest",
-    "dev": "nodemon src/server.js",
-    "start": "node src/server.js"
   }
 }
