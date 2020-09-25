@@ -49,4 +49,20 @@ describe('Session', () => {
 
     expect(response.status).toBe(200);
   });
+
+  it('Deve receber um token de autenticação', async () => {
+    const user = await factory.attrs('User');
+    const { password } = user;
+
+    const createUser = await request(app).post('/users').send(user);
+
+    const { email } = createUser.body;
+
+    const response = await request(app).post('/session').send({
+      email,
+      password,
+    });
+
+    expect(response.body).toHaveProperty('token');
+  });
 });
