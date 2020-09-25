@@ -16,5 +16,20 @@ describe('Session', () => {
     expect(response.status).toBe(400);
   });
 
+  it('Não deve ser possível efetuar login com a senha incorreta', async () => {
+    const user = await factory.attrs('User');
+
+    const createUser = await request(app).post('/users').send(user);
+
+    const { email } = createUser.body;
+
+    const response = await request(app).post('/session').send({
+      email,
+      password: '12312341',
+    });
+
+    expect(response.status).toBe(400);
+  });
+
   // it('Verificar ')
 });
