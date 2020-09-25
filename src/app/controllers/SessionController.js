@@ -16,6 +16,13 @@ class SessionController {
       return res.status(400).json(error);
     }
 
+    if (!(await user.checkPassword(password))) {
+      error = {
+        password: 'Senha incorreta',
+      };
+      return res.status(400).json(error);
+    }
+
     return res.send();
   }
 }
