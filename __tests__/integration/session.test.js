@@ -1,7 +1,10 @@
 import request from 'supertest';
+import jwt from 'jsonwebtoken';
 import truncate from '../util/truncate';
 import factory from '../factories';
 import app from '../../src/app';
+
+import authConfig from '../../src/config/auth';
 
 describe('Session', () => {
   beforeEach(async () => {
@@ -31,5 +34,19 @@ describe('Session', () => {
     expect(response.status).toBe(400);
   });
 
-  // it('Verificar ')
+  it('Deve efetuar login', async () => {
+    const user = await factory.attrs('User');
+    const { password } = user;
+
+    const createUser = await request(app).post('/users').send(user);
+
+    const { email } = createUser.body;
+
+    const response = await request(app).post('/session').send({
+      email,
+      password,
+    });
+
+    expect(response.status).toBe(200);
+  });
 });
