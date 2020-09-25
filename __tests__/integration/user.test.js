@@ -45,4 +45,12 @@ describe('User', () => {
 
     expect(response.status).toBe(400);
   });
+
+  it('não deve ser possivel se cadastrar com senhar com menos de 6 digitos', async () => {
+    const user = await factory.attrs('User', { password: '12345' });
+
+    const response = await request(app).post('/users').send(user);
+
+    expect(response.status).toBe(400);
+  });
 });
