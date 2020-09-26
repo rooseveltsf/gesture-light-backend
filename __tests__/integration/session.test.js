@@ -1,10 +1,7 @@
 import request from 'supertest';
-import jwt from 'jsonwebtoken';
 import truncate from '../util/truncate';
 import factory from '../factories';
 import app from '../../src/app';
-
-import authConfig from '../../src/config/auth';
 
 describe('Session', () => {
   beforeEach(async () => {
