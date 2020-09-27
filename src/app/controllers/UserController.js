@@ -2,7 +2,7 @@ import * as Yup from 'yup';
 import User from '../models/User';
 
 class UserController {
-  async store(req, res, next) {
+  async store(req, res) {
     const schema = Yup.object().shape({
       name: Yup.string().required(),
       endereco: Yup.string().required(),
@@ -11,7 +11,7 @@ class UserController {
     });
 
     if (!(await schema.isValid(req.body))) {
-      return res.status(400).json({ error: 'Erro de validação' });
+      return res.status(400).json({ error: 'Erro de validação do formulário' });
     }
 
     const userExists = await User.findOne({
