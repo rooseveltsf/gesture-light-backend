@@ -4,7 +4,7 @@ import User from '../src/app/models/User';
 
 factory.define('User', User, {
   name: faker.name.findName(),
-  endereco: faker.address.city(),
+  address: faker.address.city(),
   email: faker.internet.email(),
   password: faker.internet.password(),
 });
