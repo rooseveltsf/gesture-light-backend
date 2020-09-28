@@ -51,6 +51,40 @@ class PublicationController {
         .json({ error: 'Erro na listagem das publicações.' });
     }
   }
+
+  async store(req, res) {
+    const userExists = await User.findByPk(req.userId);
+
+    if (!userExists) {
+      return res.status(400).json({ error: 'Usuário não existe.' });
+    }
+
+    const { originalname: name, filename: path } = req.file;
+
+    const { id } = await Image.create({ name, path });
+
+    const {
+      title,
+      description,
+      status,
+      address,
+      latitude,
+      longitude,
+    } = req.body;
+
+    const publication = await Publication.create({
+      title,
+      description,
+      status,
+      address_post: address,
+      latitude,
+      longitude,
+      user_id: req.userId,
+      image_id: id,
+    });
+
+    return res.json(publication);
+  }
 }
 
 export default new PublicationController();
