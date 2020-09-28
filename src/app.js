@@ -1,5 +1,5 @@
 import './bootstrap';
-import * as Youch from 'youch';
+import Youch from 'youch';
 import express from 'express';
 import 'express-async-errors';
 
