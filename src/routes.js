@@ -14,5 +14,6 @@ routes.post('/session', SessionController.store);
 routes.use(authMiddleware);
 
 routes.get('/publish', PublicationController.index);
+routes.post('/publish', PublicationController.store);
 
 export default routes;
