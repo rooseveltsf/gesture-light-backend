@@ -128,6 +128,49 @@ class PublicationController {
 
     return res.send();
   }
+
+  async delete(req, res) {
+    const userExist = await User.findByPk(req.userId);
+
+    if (!userExist) {
+      return res.json({
+        error: 'Usuário não existe',
+      });
+    }
+
+    const { id } = req.params;
+
+    const currentPublication = await Publication.findOne({
+      attributes: ['user_id'],
+      where: {
+        id,
+      },
+      raw: true,
+      nest: true,
+    });
+
+    if (!currentPublication) {
+      return res.json({
+        error: 'Publicação não existe',
+      });
+    }
+
+    const { user_id } = currentPublication;
+
+    if (user_id !== req.userId) {
+      return res.json({
+        error: 'Você não possui permissão para deletar essa publicação.',
+      });
+    }
+
+    await Publication.destroy({
+      where: {
+        id,
+      },
+    });
+
+    return res.send();
+  }
 }
 
 export default new PublicationController();
