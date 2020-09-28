@@ -5,7 +5,7 @@ class UserController {
   async store(req, res) {
     const schema = Yup.object().shape({
       name: Yup.string().required(),
-      endereco: Yup.string().required(),
+      address: Yup.string().required(),
       email: Yup.string().required(),
       password: Yup.string().required().min(6),
     });
@@ -22,9 +22,9 @@ class UserController {
       return res.status(400).json({ error: 'Usuário já existe' });
     }
 
-    const { name, endereco, email } = await User.create(req.body);
+    const { name, address, email } = await User.create(req.body);
 
-    return res.json({ name, endereco, email });
+    return res.json({ name, address, email });
   }
 }
 

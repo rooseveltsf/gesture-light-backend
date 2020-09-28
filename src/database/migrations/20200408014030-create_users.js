@@ -11,7 +11,7 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: false,
       },
-      endereco: {
+      address: {
         type: Sequelize.STRING,
         allowNull: false,
       },
