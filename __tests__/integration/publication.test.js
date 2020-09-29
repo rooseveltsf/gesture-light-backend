@@ -1,4 +1,7 @@
 import request from 'supertest';
+import jwt from 'jsonwebtoken';
+
+import authConfig from '../../src/config/auth';
 import truncate from '../util/truncate';
 import factory from '../factories';
 import app from '../../src/app';
@@ -15,16 +18,13 @@ describe('Publications', () => {
   });
 
   it('Verifica se está listando as publicações', async () => {
-    const dataUser = await factory.attrs('User', {
+    const { id } = await factory.create('User', {
       email: 'roosevelt@test.com',
       password: '12345678',
     });
-    await request(app).post('/users').send(dataUser);
-    const { email, password } = dataUser;
 
-    const res = await request(app).post('/session').send({ email, password });
+    const token = jwt.sign({ id }, authConfig.secret);
 
-    const { token } = res.body;
     const response = await request(app)
       .get('/publish')
       .set('Authorization', `Bearer ${token}`);
