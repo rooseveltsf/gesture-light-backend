@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">49.15% </span>
+                <span class="strong">66.1% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>29/59</span>
+                <span class='fraction'>39/59</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">25% </span>
+                <span class="strong">45% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>5/20</span>
+                <span class='fraction'>9/20</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">37.5% </span>
+                <span class="strong">50% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>3/8</span>
+                <span class='fraction'>4/8</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">45.28% </span>
+                <span class="strong">64.15% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>24/53</span>
+                <span class='fraction'>34/53</span>
             </div>
         
             
@@ -55,7 +55,7 @@
             Press <em>n</em> or <em>j</em> to go to the next uncovered block, <em>b</em>, <em>p</em> or <em>k</em> for the previous block.
         </p>
     </div>
-    <div class='status-line low'></div>
+    <div class='status-line medium'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -322,46 +322,46 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -467,7 +467,7 @@ class PublicationController {
     const userExists = await User.findByPk(req.userId);
 &nbsp;
     <span class="missing-if-branch" title="if path not taken" >I</span>if (!userExists) {
-<span class="cstat-no" title="statement not covered" >      return res.status(401).json({ error: 'Usuário não existe.' });</span>
+<span class="cstat-no" title="statement not covered" >      return res.status(400).json({ error: 'Usuário não existe.' });</span>
     }
 &nbsp;
     const { originalname: name, filename: path } = req.file;
@@ -497,18 +497,18 @@ class PublicationController {
     return res.json(publication);
   }
 &nbsp;
-<span class="fstat-no" title="function not covered" >  as</span>ync update(req, res) {
-    const userExist = <span class="cstat-no" title="statement not covered" >await User.findByPk(req.userId);</span>
+  async update(req, res) {
+    const userExist = await User.findByPk(req.userId);
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    if (!userExist) {</span>
-<span class="cstat-no" title="statement not covered" >      return res.json({</span>
+    <span class="missing-if-branch" title="if path not taken" >I</span>if (!userExist) {
+<span class="cstat-no" title="statement not covered" >      return res.status(400).json({</span>
         error: 'Usuário não existe',
       });
     }
 &nbsp;
-    const { id } = <span class="cstat-no" title="statement not covered" >req.params;</span>
+    const { id } = req.params;
 &nbsp;
-    const currentPublication = <span class="cstat-no" title="statement not covered" >await Publication.findOne({</span>
+    const currentPublication = await Publication.findOne({
       attributes: ['user_id'],
       where: {
         id,
@@ -517,27 +517,27 @@ class PublicationController {
       nest: true,
     });
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    if (!currentPublication) {</span>
-<span class="cstat-no" title="statement not covered" >      return res.json({</span>
+    if (!currentPublication) {
+      return res.status(400).json({
         error: 'Publicação não existe',
       });
     }
 &nbsp;
-    const { user_id } = <span class="cstat-no" title="statement not covered" >currentPublication;</span>
+    const { user_id } = currentPublication;
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    if (user_id !== req.userId) {</span>
+    <span class="missing-if-branch" title="if path not taken" >I</span>if (user_id !== req.userId) {
 <span class="cstat-no" title="statement not covered" >      return res.json({</span>
         error: 'Você não possui permissão para alterar essa publicação.',
       });
     }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    await Publication.update(req.body, {</span>
+    await Publication.update(req.body, {
       where: {
         id,
       },
     });
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    return res.send();</span>
+    return res.send();
   }
 &nbsp;
 <span class="fstat-no" title="function not covered" >  as</span>ync delete(req, res) {
@@ -592,7 +592,7 @@ export default new PublicationController();
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank">istanbul</a>
-                at Wed Sep 30 2020 09:58:38 GMT-0300 (GMT-03:00)
+                at Wed Sep 30 2020 15:20:01 GMT-0300 (GMT-03:00)
             </div>
         </div>
         <script src="../prettify.js"></script>

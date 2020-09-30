@@ -90,7 +90,7 @@ class PublicationController {
     const userExist = await User.findByPk(req.userId);
 
     if (!userExist) {
-      return res.json({
+      return res.status(400).json({
         error: 'Usuário não existe',
       });
     }
@@ -107,7 +107,7 @@ class PublicationController {
     });
 
     if (!currentPublication) {
-      return res.json({
+      return res.status(400).json({
         error: 'Publicação não existe',
       });
     }
@@ -115,7 +115,7 @@ class PublicationController {
     const { user_id } = currentPublication;
 
     if (user_id !== req.userId) {
-      return res.json({
+      return res.status(400).json({
         error: 'Você não possui permissão para alterar essa publicação.',
       });
     }

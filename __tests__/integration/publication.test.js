@@ -5,14 +5,19 @@ import factory from '../factories';
 import app from '../../src/app';
 
 let token = null;
+let pub_id = null;
 
 describe('Publications', () => {
-  beforeEach(async () => {
+  beforeAll(async () => {
     await truncate();
 
     const user = await factory.create('User');
 
     token = user.generateToken();
+  });
+
+  afterAll(async () => {
+    await truncate();
   });
 
   describe('GET /publish', () => {
@@ -55,7 +60,53 @@ describe('Publications', () => {
         .attach('file', dir)
         .set('Authorization', `Bearer ${token}`);
 
+      pub_id = response.body.id;
+
       expect(response.status).toBe(200);
+    });
+  });
+
+  describe('PUT /publish/:id', () => {
+    it('Verifica se a publicação está sendo atualizada', async () => {
+      const update = {
+        title: 'Novo título',
+        status: 'neutro',
+      };
+
+      const response = await request(app)
+        .put(`/publish/${pub_id}`)
+        .send(update)
+        .set('Authorization', `Bearer ${token}`);
+
+      expect(response.status).toBe(200);
+    });
+
+    it('Verifica se a publicação pode ser atualizada por um usuário que não existe', async () => {
+      const update = {
+        title: 'Novo título',
+        status: 'neutro',
+      };
+
+      const response = await request(app)
+        .put(`/publish/${pub_id}`)
+        .send(update)
+        .set('Authorization', `Bearer 12332143`);
+
+      expect(response.status).toBe(401);
+    });
+
+    it('Verifica se a publicação existe', async () => {
+      const update = {
+        title: 'Novo título',
+        status: 'neutro',
+      };
+
+      const response = await request(app)
+        .put(`/publish/123`)
+        .send(update)
+        .set('Authorization', `Bearer ${token}`);
+
+      expect(response.status).toBe(400);
     });
   });
 });
