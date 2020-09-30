@@ -9,9 +9,9 @@ describe('Session', () => {
   });
 
   it('Não deve ser possível efetuar login sem ter cadastro', async () => {
-    const credentials = await factory.attrs('Session');
-
-    const response = await request(app).post('/session').send(credentials);
+    const response = await request(app)
+      .post('/session')
+      .send({ email: 'roosevelt@test.com', password: '123213asd4' });
 
     expect(response.status).toBe(400);
   });
