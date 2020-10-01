@@ -4,61 +4,44 @@ import Image from '../models/Image';
 
 class PublicationController {
   async index(req, res) {
-    const userExists = await User.findByPk(req.userId);
-    if (!userExists) {
-      return res.status(400).json({ error: 'Usuário não existe' });
-    }
+    // const { page = 1 } = req.query;
+    const allPublications = await Publication.findAll({
+      include: [
+        {
+          model: Image,
+          as: 'image',
+          attributes: ['url', 'path'],
+        },
+        {
+          model: User,
+          as: 'user',
+          attributes: ['name', 'address', 'email'],
+        },
+      ],
+      // limit: 5,
+      // offset: (page - 1) * 5,
+    });
 
-    try {
-      // const { page = 1 } = req.query;
-      const allPublications = await Publication.findAll({
-        include: [
-          {
-            model: Image,
-            as: 'image',
-            attributes: ['url', 'path'],
-          },
-          {
-            model: User,
-            as: 'user',
-            attributes: ['name', 'address', 'email'],
-          },
-        ],
-        // limit: 5,
-        // offset: (page - 1) * 5,
-      });
+    const formatPublications = JSON.stringify(allPublications, null, 2);
+    const publications = JSON.parse(formatPublications);
 
-      const formatPublications = JSON.stringify(allPublications, null, 2);
-      const publications = JSON.parse(formatPublications);
+    const notAcessible = publications.filter(
+      (item) => item.status === 'notAccessible'
+    );
+    const neutro = publications.filter((item) => item.status === 'neutro');
 
-      const notAcessible = publications.filter(
-        (item) => item.status === 'notAccessible'
-      ).length;
-      const neutro = publications.filter((item) => item.status === 'neutro')
-        .length;
-      const acessible = publications.filter(
-        (item) => item.status === 'accessible'
-      ).length;
+    const acessible = publications.filter(
+      (item) => item.status === 'accessible'
+    );
 
-      res.header('X-Total-countAcessible', acessible);
-      res.header('X-Total-countNotAcessible', notAcessible);
-      res.header('X-Total-countNeutro', neutro);
+    res.header('X-Total-countAcessible', acessible.length);
+    res.header('X-Total-countNotAcessible', notAcessible.length);
+    res.header('X-Total-countNeutro', neutro.length);
 
-      return res.json(publications);
-    } catch (err) {
-      return res
-        .status(400)
-        .json({ error: 'Erro na listagem das publicações.' });
-    }
+    return res.json(publications);
   }
 
   async store(req, res) {
-    const userExists = await User.findByPk(req.userId);
-
-    if (!userExists) {
-      return res.status(400).json({ error: 'Usuário não existe.' });
-    }
-
     const { originalname: name, filename: path } = req.file;
 
     const { id } = await Image.create({ name, path });
@@ -87,14 +70,6 @@ class PublicationController {
   }
 
   async update(req, res) {
-    const userExist = await User.findByPk(req.userId);
-
-    if (!userExist) {
-      return res.status(400).json({
-        error: 'Usuário não existe',
-      });
-    }
-
     const { id } = req.params;
 
     const currentPublication = await Publication.findOne({
@@ -115,7 +90,7 @@ class PublicationController {
     const { user_id } = currentPublication;
 
     if (user_id !== req.userId) {
-      return res.status(400).json({
+      return res.status(401).json({
         error: 'Você não possui permissão para alterar essa publicação.',
       });
     }
@@ -130,14 +105,6 @@ class PublicationController {
   }
 
   async delete(req, res) {
-    const userExist = await User.findByPk(req.userId);
-
-    if (!userExist) {
-      return res.json({
-        error: 'Usuário não existe',
-      });
-    }
-
     const { id } = req.params;
 
     const currentPublication = await Publication.findOne({
@@ -150,7 +117,7 @@ class PublicationController {
     });
 
     if (!currentPublication) {
-      return res.json({
+      return res.status(400).json({
         error: 'Publicação não existe',
       });
     }
@@ -158,7 +125,7 @@ class PublicationController {
     const { user_id } = currentPublication;
 
     if (user_id !== req.userId) {
-      return res.json({
+      return res.status(401).json({
         error: 'Você não possui permissão para deletar essa publicação.',
       });
     }
