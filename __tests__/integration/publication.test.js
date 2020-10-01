@@ -6,14 +6,20 @@ import app from '../../src/app';
 
 let token = null;
 let pub_id = null;
+let tokenUserTwo = null;
 
 describe('Publications', () => {
   beforeAll(async () => {
     await truncate();
 
     const user = await factory.create('User');
+    const userTwo = await factory.create('User', {
+      email: 'mateus@test.com',
+    });
 
     token = user.generateToken();
+    tokenUserTwo = userTwo.generateToken();
+    // other = otherUser;
   });
 
   afterAll(async () => {
@@ -33,6 +39,22 @@ describe('Publications', () => {
         .set('Authorization', `Bearer ${token}`);
 
       expect(response.status).toBe(200);
+    });
+
+    it('Verifica se as quantidades de publicações estão sendo setadas', async () => {
+      const response = await request(app)
+        .get('/publish')
+        .set('Authorization', `Bearer ${token}`);
+
+      expect(response.header).toHaveProperty(
+        'X-Total-countAcessible'.toLowerCase()
+      );
+      expect(response.header).toHaveProperty(
+        'X-Total-countNotAcessible'.toLowerCase()
+      );
+      expect(response.header).toHaveProperty(
+        'X-Total-countNeutro'.toLowerCase()
+      );
     });
   });
 
@@ -67,6 +89,14 @@ describe('Publications', () => {
   });
 
   describe('PUT /publish/:id', () => {
+    it('Verifica se um usuário pode atualizar publicação de outro usuário', async () => {
+      const response = await request(app)
+        .put(`/publish/${pub_id}`)
+        .set('Authorization', `Bearer ${tokenUserTwo}`);
+
+      expect(response.status).toBe(401);
+    });
+
     it('Verifica se a publicação está sendo atualizada', async () => {
       const update = {
         title: 'Novo título',
@@ -107,6 +137,40 @@ describe('Publications', () => {
         .set('Authorization', `Bearer ${token}`);
 
       expect(response.status).toBe(400);
+    });
+  });
+
+  describe('DELETE /publish/:id', () => {
+    it('Verifica se a publicação pode ser deletada por um usuário que não existe', async () => {
+      const response = await request(app)
+        .delete(`/publish/${pub_id}`)
+        .set('Authorization', `Bearer 12332143`);
+
+      expect(response.status).toBe(401);
+    });
+
+    it('Verifica se a publicação existe', async () => {
+      const response = await request(app)
+        .delete(`/publish/123`)
+        .set('Authorization', `Bearer ${token}`);
+
+      expect(response.status).toBe(400);
+    });
+
+    it('Verifica se um usuário pode deletar publicação de outro usuário', async () => {
+      const response = await request(app)
+        .delete(`/publish/${pub_id}`)
+        .set('Authorization', `Bearer ${tokenUserTwo}`);
+
+      expect(response.status).toBe(401);
+    });
+
+    it('Verifica se a publicação está sendo deletada', async () => {
+      const response = await request(app)
+        .delete(`/publish/${pub_id}`)
+        .set('Authorization', `Bearer ${token}`);
+
+      expect(response.status).toBe(200);
     });
   });
 });
