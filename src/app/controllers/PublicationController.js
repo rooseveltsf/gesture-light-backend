@@ -38,7 +38,7 @@ class PublicationController {
     res.header('X-Total-countNotAcessible', notAcessible.length);
     res.header('X-Total-countNeutro', neutro.length);
 
-    return res.json(publications);
+    return res.json(allPublications);
   }
 
   async store(req, res) {

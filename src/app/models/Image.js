@@ -9,7 +9,7 @@ class Image extends Model {
         url: {
           type: Sequelize.VIRTUAL,
           get() {
-            return `http://192.168.0.107:3333/publish/${this.path}`;
+            return `http://192.168.0.120:3333/publish/${this.path}`;
           },
         },
       },
