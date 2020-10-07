@@ -1,5 +1,6 @@
 import * as Yup from 'yup';
 import User from '../models/User';
+import Image from '../models/Image';
 
 class UserController {
   async store(req, res) {
@@ -25,6 +26,18 @@ class UserController {
     const { name, address, email } = await User.create(req.body);
 
     return res.json({ name, address, email });
+  }
+
+  async update(req, res) {
+    const { originalname: name, filename: path } = req.file;
+
+    const { id } = await Image.create({ name, path });
+
+    await User.update({
+      avatar_id: id,
+    });
+
+    return res.send();
   }
 }
 
