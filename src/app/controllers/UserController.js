@@ -1,6 +1,6 @@
 import * as Yup from 'yup';
 import User from '../models/User';
-import Image from '../models/Image';
+import Avatar from '../models/Avatar';
 
 class UserController {
   async store(req, res) {
@@ -29,15 +29,42 @@ class UserController {
   }
 
   async update(req, res) {
+    const { userId } = req;
+
     const { originalname: name, filename: path } = req.file;
 
-    const { id } = await Image.create({ name, path });
+    try {
+      const { id } = await Avatar.create({ name, path });
 
-    await User.update({
-      avatar_id: id,
-    });
+      await User.update(
+        {
+          avatar_id: id,
+        },
+        {
+          where: {
+            id: userId,
+          },
+        }
+      );
 
-    return res.send();
+      const { avatar_id, avatar } = await User.findOne({
+        where: { id: userId },
+        include: [
+          {
+            model: Avatar,
+            as: 'avatar',
+            attributes: ['path', 'url'],
+          },
+        ],
+      });
+
+      return res.json({ avatar, avatar_id });
+    } catch (err) {
+      console.log(err);
+      return res
+        .status(400)
+        .json({ error: 'Não foi possivel adicionar avatar' });
+    }
   }
 }
 

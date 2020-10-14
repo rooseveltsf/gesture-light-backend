@@ -1,6 +1,7 @@
 import jwt from 'jsonwebtoken';
 
 import User from '../models/User';
+import Avatar from '../models/Avatar';
 import authConfig from '../../config/auth';
 
 class SessionController {
@@ -10,6 +11,13 @@ class SessionController {
 
     const user = await User.findOne({
       where: { email },
+      include: [
+        {
+          model: Avatar,
+          as: 'avatar',
+          attributes: ['path', 'url'],
+        },
+      ],
     });
 
     if (!user) {
@@ -26,7 +34,7 @@ class SessionController {
       return res.status(400).json(error);
     }
 
-    const { id, name, address } = user;
+    const { id, name, address, avatar } = user;
 
     return res.json({
       user: {
@@ -34,6 +42,7 @@ class SessionController {
         name,
         address,
         email,
+        avatar,
       },
       token: jwt.sign({ id }, authConfig.secret),
     });

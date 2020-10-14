@@ -17,6 +17,8 @@ routes.post('/session', SessionController.store);
 
 routes.use(authMiddleware);
 
+routes.put('/avatar', upload.single('file'), UserController.update);
+
 routes.get('/publish', PublicationController.index);
 routes.post('/publish', upload.single('file'), PublicationController.store);
 routes.put('/publish/:id', PublicationController.update);
