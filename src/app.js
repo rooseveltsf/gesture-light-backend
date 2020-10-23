@@ -5,6 +5,8 @@ import bodyParser from 'body-parser';
 import cors from 'cors';
 import path from 'path';
 import 'express-async-errors';
+import io from 'socket.io';
+import http from 'http';
 
 import routes from './routes';
 
@@ -12,52 +14,60 @@ import './database';
 
 class App {
   constructor() {
-    this.server = express();
+    this.app = express();
+    this.server = http.Server(this.app);
+
+    this.socket();
 
     this.middlewares();
     this.routes();
     this.exceptionHandler();
+
+    this.connectedUsers = {};
+  }
+
+  socket() {
+    this.io = io(this.server);
+
+    this.io.on('connection', (socket) => {
+      const { user_id } = socket.handshake.query;
+      this.connectedUsers[user_id] = socket.id;
+
+      socket.on('disconnect', () => {
+        delete this.connectedUsers[user_id];
+      });
+    });
   }
 
   middlewares() {
-    // this.server.use((req, res, next) => {
-    //   res.header('Access-Control-Allow-Origin', '*');
-    //   res.header(
-    //     'Access-Control-Allow-Headers',
-    //     'x-www-form-urlencoded, Origin, X-Requested-With, Content-Type, Accept, Authorization, *'
-    //   );
-    //   if (req.method === 'OPTIONS') {
-    //     res.header(
-    //       'Access-Control-Allow-Methods',
-    //       'GET, PUT, POST, PATCH, DELETE, OPTIONS'
-    //     );
-    //     res.setHeader('Access-Control-Allow-Credentials', true);
-    //     return res.status(200).json({});
-    //   }
-    //   next();
-    // });
-    this.server.use(bodyParser.json({ limit: '50mb', extended: true }));
-    this.server.use(bodyParser.urlencoded({ extended: true }));
-    this.server.use(cors());
-    this.server.use(
+    this.app.use(bodyParser.json({ limit: '50mb', extended: true }));
+    this.app.use(bodyParser.urlencoded({ extended: true }));
+    this.app.use(cors());
+    this.app.use(
       '/publish',
       express.static(path.resolve(__dirname, '..', 'tmp', 'uploads'))
     );
-    this.server.use(
+    this.app.use(
       '/avatar',
       express.static(path.resolve(__dirname, '..', 'tmp', 'uploads'))
     );
+
+    this.app.use((req, res, next) => {
+      req.io = this.io;
+      req.connectedUsers = this.connectedUsers;
+
+      next();
+    });
   }
 
   routes() {
-    this.server.use(routes);
+    this.app.use(routes);
   }
 
   exceptionHandler() {
-    this.server.use(async (err, req, res) => {
+    this.app.use(async (err, req, res) => {
       if (process.env.NODE_ENV === 'development') {
         const errors = await new Youch(err, req).toJSON();
-        console.log(errors);
 
         return res.status(500).json(errors);
       }

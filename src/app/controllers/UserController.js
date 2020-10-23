@@ -31,10 +31,10 @@ class UserController {
   async update(req, res) {
     const { userId } = req;
 
-    const { originalname: name, filename: path } = req.file;
+    const { originalname: name, key: path, location: url = '' } = req.file;
 
     try {
-      const { id } = await Avatar.create({ name, path });
+      const { id } = await Avatar.create({ name, path, url });
 
       await User.update(
         {
@@ -60,7 +60,6 @@ class UserController {
 
       return res.json({ avatar, avatar_id });
     } catch (err) {
-      console.log(err);
       return res
         .status(400)
         .json({ error: 'Não foi possivel adicionar avatar' });

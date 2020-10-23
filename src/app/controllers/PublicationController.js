@@ -1,10 +1,10 @@
 import Publication from '../models/Publication';
 import User from '../models/User';
 import Image from '../models/Image';
+import Avatar from '../models/Avatar';
 
 class PublicationController {
   async index(req, res) {
-    // const { page = 1 } = req.query;
     const allPublications = await Publication.findAll({
       include: [
         {
@@ -16,8 +16,16 @@ class PublicationController {
           model: User,
           as: 'user',
           attributes: ['name', 'address', 'email'],
+          include: [
+            {
+              model: Avatar,
+              as: 'avatar',
+              attributes: ['url', 'path'],
+            },
+          ],
         },
       ],
+      order: [['created_at', 'DESC']],
       // limit: 5,
       // offset: (page - 1) * 5,
     });
@@ -42,9 +50,9 @@ class PublicationController {
   }
 
   async store(req, res) {
-    const { originalname: name, filename: path } = req.file;
+    const { originalname: name, key: path, location: url = '' } = req.file;
 
-    const { id } = await Image.create({ name, path });
+    const { id } = await Image.create({ name, path, url });
 
     const {
       title,
@@ -55,7 +63,7 @@ class PublicationController {
       longitude,
     } = req.body;
 
-    const publication = await Publication.create({
+    await Publication.create({
       title,
       description,
       status,
@@ -66,7 +74,7 @@ class PublicationController {
       image_id: id,
     });
 
-    return res.json(publication);
+    return res.send();
   }
 
   async update(req, res) {
