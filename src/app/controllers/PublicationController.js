@@ -1,7 +1,7 @@
-import Publication from '../models/Publication';
-import User from '../models/User';
-import Image from '../models/Image';
-import Avatar from '../models/Avatar';
+const Publication = require('../models/Publication');
+const User = require('../models/User');
+const Image = require('../models/Image');
+const Avatar = require('../models/Avatar');
 
 class PublicationController {
   async index(req, res) {
@@ -148,4 +148,4 @@ class PublicationController {
   }
 }
 
-export default new PublicationController();
+module.exports = new PublicationController();

@@ -1,6 +1,6 @@
-import Notification from '../schemas/Notification';
-import User from '../models/User';
-import Publication from '../models/Publication';
+const Notification = require('../schemas/Notification');
+const User = require('../models/User');
+const Publication = require('../models/Publication');
 
 class NotificationController {
   async index(req, res) {
@@ -50,4 +50,4 @@ class NotificationController {
     return res.json(notification);
   }
 }
-export default new NotificationController();
+module.exports = new NotificationController();

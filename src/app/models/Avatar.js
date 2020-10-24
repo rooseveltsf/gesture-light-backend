@@ -1,6 +1,6 @@
-import Sequelize, { Model } from 'sequelize';
+const Sequelize = require('sequelize');
 
-class Avatar extends Model {
+class Avatar extends Sequelize.Model {
   static init(sequelize) {
     super.init(
       {
@@ -15,7 +15,6 @@ class Avatar extends Model {
 
     this.addHook('beforeSave', (img) => {
       if (img.url === '') {
-        console.log('model de avatar');
         img.url = `${process.env.APP_URL}/avatar/${img.path}`;
       }
     });
@@ -24,4 +23,4 @@ class Avatar extends Model {
   }
 }
 
-export default Avatar;
+module.exports = Avatar;

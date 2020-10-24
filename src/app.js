@@ -1,16 +1,16 @@
-import './bootstrap';
-import Youch from 'youch';
-import express from 'express';
-import bodyParser from 'body-parser';
-import cors from 'cors';
-import path from 'path';
-import 'express-async-errors';
-import io from 'socket.io';
-import http from 'http';
+require('./bootstrap');
+const Youch = require('youch');
+const express = require('express');
+const bodyParser = require('body-parser');
+const cors = require('cors');
+const path = require('path');
+require('express-async-errors');
+const io = require('socket.io');
+const http = require('http');
 
-import routes from './routes';
+const routes = require('./routes');
 
-import './database';
+require('./database');
 
 class App {
   constructor() {
@@ -77,4 +77,4 @@ class App {
   }
 }
 
-export default new App().server;
+module.exports = new App().server;

@@ -1,11 +1,11 @@
-import Sequelize, { Model } from 'sequelize';
-import aws from 'aws-sdk';
-import fs from 'fs';
-import path from 'path';
-import { promisify } from 'util';
+const Sequelize = require('sequelize');
+const aws = require('aws-sdk');
+const fs = require('fs');
+const path = require('path');
+const { promisify } = require('util');
 
 const s3 = new aws.S3();
-class Image extends Model {
+class Image extends Sequelize.Model {
   static init(sequelize) {
     super.init(
       {
@@ -42,4 +42,4 @@ class Image extends Model {
   }
 }
 
-export default Image;
+module.exports = Image;

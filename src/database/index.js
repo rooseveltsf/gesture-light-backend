@@ -1,11 +1,11 @@
-import Sequelize from 'sequelize';
-import mongoose from 'mongoose';
+const Sequelize = require('sequelize');
+const mongoose = require('mongoose');
 
-import databaseConfig from '../config/database';
-import User from '../app/models/User';
-import Image from '../app/models/Image';
-import Avatar from '../app/models/Avatar';
-import Publication from '../app/models/Publication';
+const databaseConfig = require('../config/database');
+const User = require('../app/models/User');
+const Image = require('../app/models/Image');
+const Avatar = require('../app/models/Avatar');
+const Publication = require('../app/models/Publication');
 
 const models = [User, Image, Publication, Avatar];
 
@@ -34,4 +34,4 @@ class Database {
   }
 }
 
-export default new Database();
+module.exports = new Database();

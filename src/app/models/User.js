@@ -1,10 +1,10 @@
-import Sequelize, { Model } from 'sequelize';
-import bcrypt from 'bcryptjs';
-import jwt from 'jsonwebtoken';
+const Sequelize = require('sequelize');
+const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
 
-import authConfig from '../../config/auth';
+const authConfig = require('../../config/auth');
 
-class User extends Model {
+class User extends Sequelize.Model {
   static init(sequelize) {
     super.init(
       {
@@ -39,4 +39,4 @@ class User extends Model {
   }
 }
 
-export default User;
+module.exports = User;

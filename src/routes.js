@@ -1,13 +1,13 @@
-import { Router } from 'express';
-import multer from 'multer';
-import multerConfig from './config/multer';
+const { Router } = require('express');
+const multer = require('multer');
+const multerConfig = require('./config/multer');
 
-import UserController from './app/controllers/UserController';
-import SessionController from './app/controllers/SessionController';
-import PublicationController from './app/controllers/PublicationController';
-import NotificationController from './app/controllers/NotificationController';
+const UserController = require('./app/controllers/UserController');
+const SessionController = require('./app/controllers/SessionController');
+const PublicationController = require('./app/controllers/PublicationController');
+const NotificationController = require('./app/controllers/NotificationController');
 
-import authMiddleware from './app/middlewares/auth';
+const authMiddleware = require('./app/middlewares/auth');
 
 const routes = new Router();
 
@@ -30,4 +30,4 @@ routes.get('/notifications', NotificationController.index);
 routes.post('/notifications/:publication_id', NotificationController.store);
 routes.put('/notifications/:id', NotificationController.update);
 
-export default routes;
+module.exports = routes;

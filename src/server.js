@@ -1,4 +1,4 @@
-import './bootstrap';
-import app from './app';
+require('./bootstrap');
+const server = require('./app');
 
-app.listen(process.env.PORT || 3333);
+server.listen(process.env.PORT || 3333);

@@ -1,9 +1,10 @@
-import '../bootstrap';
-import multer from 'multer';
-import crypto from 'crypto';
-import aws from 'aws-sdk';
-import multerS3 from 'multer-s3';
-import { resolve, extname } from 'path';
+require('../bootstrap');
+
+const multer = require('multer');
+const crypto = require('crypto');
+const aws = require('aws-sdk');
+const multerS3 = require('multer-s3');
+const { resolve, extname } = require('path');
 
 const storageTypes = {
   local: multer.diskStorage({
@@ -43,7 +44,7 @@ const storageTypes = {
   }),
 };
 
-export default {
+module.exports = {
   dest: resolve(__dirname, '..', '..', 'tmp', 'uploads'),
   storage: storageTypes[process.env.STORAGE_TYPE],
   fileFilter: (req, file, cb) => {

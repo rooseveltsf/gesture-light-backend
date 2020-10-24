@@ -1,5 +1,5 @@
 {
-  "name": "GestureLight-backend",
+  "name": "gesturelight",
   "version": "1.0.0",
   "main": "index.js",
   "license": "MIT",
@@ -11,9 +11,9 @@
     "test": "cross-env NODE_ENV=test jest",
     "posttest": "cross-env NODE_ENV=test sequelize db:migrate:undo:all",
     "dev": "nodemon src/server.js",
-    "start": "node --experimental-modules src/server.js"
+    "build": "sucrase ./src -d ./dist --transforms imports",
+    "start": "node src/server.js"
   },
-  "type": "module",
   "husky": {
     "hooks": {
       "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
